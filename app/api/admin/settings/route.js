@@ -1,0 +1,17 @@
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import connectDB from '@/lib/mongodb';
+import SiteSettings from '@/models/SiteSettings';
+import { ADMIN_COOKIE_NAME, isAdminTokenValid } from '@/lib/adminAuth';
+
+async function requireAdmin(){const c=await cookies();return isAdminTokenValid(c.get(ADMIN_COOKIE_NAME)?.value)}
+const defaults={companyName:'Touristaa Travel Company',phone:'6387200498',email:'touristaaofficial@gmail.com',address:'Near Maharishi Valmiki International Airport, Ayodhya, Uttar Pradesh',heroEyebrow:'Explore the World With Us',heroTitle:'DISCOVER. EXPLORE. EXPERIENCE.',heroDescription:'Touristaa Travel Company is your trusted travel partner for memorable journeys, customized tours and comfortable travel experiences.',aboutTitle:'Your journey, our responsibility.',aboutText:'Touristaa Travel Company creates memorable, safe and hassle-free travel experiences. We plan domestic and international holidays, educational tours, honeymoon trips, family vacations and corporate travel with customer-focused support from enquiry to return.',mapQuery:'Near Maharishi Valmiki International Airport, Ayodhya, Uttar Pradesh'};
+
+export async function GET(){
+ if(!(await requireAdmin()))return NextResponse.json({error:'Unauthorized.'},{status:401});
+ try{await connectDB();let settings=await SiteSettings.findOne({key:'main'}).lean();if(!settings)settings=await SiteSettings.create({key:'main',...defaults});return NextResponse.json({settings})}catch(e){console.error(e);return NextResponse.json({error:'Unable to load website settings.'},{status:500})}
+}
+export async function PUT(request){
+ if(!(await requireAdmin()))return NextResponse.json({error:'Unauthorized.'},{status:401});
+ try{const data=await request.json();delete data._id;delete data.key;await connectDB();const settings=await SiteSettings.findOneAndUpdate({key:'main'},{$set:data},{new:true,upsert:true,runValidators:true});return NextResponse.json({success:true,settings})}catch(e){console.error(e);return NextResponse.json({error:'Unable to save website settings.'},{status:500})}
+}
