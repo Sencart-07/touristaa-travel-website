@@ -1,4 +1,5 @@
 'use client';
+import './admin.css';
 import {useEffect,useMemo,useState} from 'react';
 
 const emptyPackage={name:'',destination:'',price:'',duration:'',description:'',category:'Domestic Tour',image:'',featured:false,active:true};
@@ -10,7 +11,7 @@ export default function Admin(){
  async function load(){setLoading(true);try{const [p,e,s]=await Promise.all([fetch('/api/admin/packages').then(r=>r.json()),fetch('/api/admin/enquiries').then(r=>r.json()),fetch('/api/admin/settings').then(r=>r.json())]);if(p.error==='Unauthorized.'||e.error==='Unauthorized.'||s.error==='Unauthorized.'){window.location.href='/admin/login';return}setPackages(p.packages||[]);setLeads(e.enquiries||[]);setSettings({...emptySettings,...(s.settings||{})})}finally{setLoading(false)}}
  useEffect(()=>{load()},[]);
  const filteredLeads=useMemo(()=>leads.filter(l=>(statusFilter==='all'||l.status===statusFilter)&&[l.name,l.phone,l.email,l.destination,l.source].join(' ').toLowerCase().includes(search.toLowerCase())),[leads,statusFilter,search]);
- const counts={new:leads.filter(x=>x.status==='new').length,contacted:leads.filter(x=>x.status==='contacted').length,follow:leads.filter(x=>x.status==='follow-up').length,converted:leads.filter(x=>x.status==='converted').length};
+ const counts={new:leads.filter(x=>x.status==='new').length,follow:leads.filter(x=>x.status==='follow-up').length,converted:leads.filter(x=>x.status==='converted').length};
  async function savePackage(e){e.preventDefault();setSaving(true);try{const r=await fetch('/api/admin/packages',{method:editing?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(editing?{id:editing,...form}:form)});if(!r.ok){alert((await r.json()).error||'Save failed');return}setForm(emptyPackage);setEditing(null);setMessage('Package saved');await load()}finally{setSaving(false)}}
  async function deletePackage(id){if(!confirm('Delete this tour permanently?'))return;const r=await fetch('/api/admin/packages',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});if(r.ok)load();else alert((await r.json()).error||'Delete failed')}
  function editPackage(p){setEditing(p._id);setForm({name:p.name||'',destination:p.destination||'',price:p.price||'',duration:p.duration||'',description:p.description||'',category:p.category||'Domestic Tour',image:p.image||'',featured:!!p.featured,active:p.active!==false});setTab('packages')}
