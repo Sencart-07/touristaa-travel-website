@@ -1,1 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 1385"><image href="data:image/jpeg;base64," + b64 + "" width="1160" height="1385" preserveAspectRatio="xMidYMid meet"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
+  <title id="title">Touristaa Travel Company</title>
+  <desc id="desc">Touristaa Travel Company logo with a stylized journey mark</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="180" rx="36" fill="#ffffff"/>
+  <g transform="translate(24 24)">
+    <circle cx="66" cy="66" r="60" fill="url(#g)"/>
+    <path d="M35 92c18-27 36-47 67-61-7 19-20 42-42 61" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+    <path d="M76 38l29-7-12 28" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="39" cy="103" r="6" fill="#fff"/>
+  </g>
+  <text x="164" y="91" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" fill="#17324d" letter-spacing="1">TOURISTAA</text>
+  <text x="167" y="128" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" fill="#0f766e" letter-spacing="5">TRAVEL COMPANY</text>
+</svg>
