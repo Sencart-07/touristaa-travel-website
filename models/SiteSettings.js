@@ -14,7 +14,10 @@ const SiteSettingsSchema = new mongoose.Schema({
   mapQuery: { type: String, default: 'Near Maharishi Valmiki International Airport, Ayodhya, Uttar Pradesh' },
   services: { type: [mongoose.Schema.Types.Mixed], default: [] },
   gallery: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  testimonials: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  faqs: { type: [mongoose.Schema.Types.Mixed], default: [] },
   stats: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  seo: { type: mongoose.Schema.Types.Mixed, default: {} },
 }, { timestamps: true });
 
 export default mongoose.models.SiteSettings || mongoose.model('SiteSettings', SiteSettingsSchema);
