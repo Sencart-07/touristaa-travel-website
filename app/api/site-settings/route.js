@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import SiteSettings from '@/models/SiteSettings';
+
+const defaults={companyName:'Touristaa Travel Company',phone:'6387200498',email:'touristaaofficial@gmail.com',address:'Near Maharishi Valmiki International Airport, Ayodhya, Uttar Pradesh',heroEyebrow:'Explore the World With Us',heroTitle:'DISCOVER. EXPLORE. EXPERIENCE.',heroDescription:'Touristaa Travel Company is your trusted travel partner for memorable journeys, customized tours and comfortable travel experiences.',aboutTitle:'Your journey, our responsibility.',aboutText:'Touristaa Travel Company creates memorable, safe and hassle-free travel experiences. We plan domestic and international holidays, educational tours, honeymoon trips, family vacations and corporate travel with customer-focused support from enquiry to return.',mapQuery:'Near Maharishi Valmiki International Airport, Ayodhya, Uttar Pradesh'};
+export async function GET(){try{await connectDB();const settings=await SiteSettings.findOne({key:'main'}).lean();return NextResponse.json({settings:settings||defaults},{headers:{'Cache-Control':'no-store'}})}catch(e){return NextResponse.json({settings:defaults})}}
