@@ -6,7 +6,14 @@ const EnquirySchema = new mongoose.Schema({
   email: { type: String, trim: true, lowercase: true },
   destination: { type: String, trim: true },
   message: { type: String, default: '' },
-  status: { type: String, enum: ['new', 'contacted', 'closed'], default: 'new' },
+  status: { type: String, enum: ['new', 'contacted', 'follow-up', 'converted', 'closed'], default: 'new' },
+  priority: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },
+  source: { type: String, enum: ['website', 'whatsapp', 'phone', 'walk-in', 'other'], default: 'website' },
+  notes: { type: String, default: '' },
+  followUpDate: { type: Date },
+  assignedTo: { type: String, default: '' },
+  budget: { type: String, default: '' },
+  travelDate: { type: Date },
 }, { timestamps: true });
 
 export default mongoose.models.Enquiry || mongoose.model('Enquiry', EnquirySchema);
